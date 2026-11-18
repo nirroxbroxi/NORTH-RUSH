@@ -1,45 +1,57 @@
 (() => {
-  const $ = id => document.getElementById(id);
-  let save = JSON.parse(localStorage.getItem('north_rush_save') || JSON.stringify({
-    coins: 500, xp: 0, skin: 'frost', cape: 'none', mode: 'classic',
-    user: { name: 'Joueur', loggedAdmin: false }, scores: [], owned: ['frost']
+  let _0xgb80b;
+  const $ = id => document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064'](id);
+  _0xgb80b = "jldejd";
+  var _0x5c31cc = (515080 ^ 515072) + (919937 ^ 919941);
+  let save = JSON['\u0070\u0061\u0072\u0073\u0065'](localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']('north_rush_save') || JSON['\u0073\u0074\u0072\u0069\u006E\u0067\u0069\u0066\u0079']({
+    "coins": 500,
+    '\u0078\u0070': 0,
+    "skin": 'frost',
+    "cape": "\u006E\u006F\u006E\u0065",
+    '\u006D\u006F\u0064\u0065': 'classic',
+    '\u0075\u0073\u0065\u0072': {
+      "name": "\u004A\u006F\u0075\u0065\u0075\u0072",
+      '\u006C\u006F\u0067\u0067\u0065\u0064\u0041\u0064\u006D\u0069\u006E': false
+    },
+    '\u0073\u0063\u006F\u0072\u0065\u0073': [],
+    "owned": ['frost']
   }));
-
-  function persist() { localStorage.setItem('north_rush_save', JSON.stringify(save)); }
-  function updateUI() { document.querySelectorAll('[data-balance]').forEach(el => el.textContent = save.coins); }
-
-  // Système de connexion Admin sécurisé
-  window.checkAdminLogin = function(username, password) {
-    if ((username === 'Nirrox' || username === 'Jibier') && password === 'Giuliano2013') {
-      save.user.name = username;
-      save.user.loggedAdmin = true;
-      if (!save.owned.includes('admin_skin')) save.owned.push('admin_skin');
-      save.skin = 'admin_skin';
-      save.cape = 'admin_cape';
-      persist();
-      alert('Connexion Admin réussie ! Skin et Cape Admin débloqués.');
-      closeDialog();
+  _0x5c31cc = '\u006B\u006E\u006F\u0067\u0065\u006B';
+  function _0x2cc() {
+    localStorage['\u0073\u0065\u0074\u0049\u0074\u0065\u006D']('north_rush_save', JSON['\u0073\u0074\u0072\u0069\u006E\u0067\u0069\u0066\u0079'](save));
+  }
+  function _0xeff() {
+    document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("\u005B\u0064\u0061\u0074\u0061\u002D\u0062\u0061\u006C\u0061\u006E\u0063\u0065\u005D")['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](el => el['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = save['\u0063\u006F\u0069\u006E\u0073']);
+  }
+  window['\u0063\u0068\u0065\u0063\u006B\u0041\u0064\u006D\u0069\u006E\u004C\u006F\u0067\u0069\u006E'] = function (username, password) {
+    if ((username === "\u004E\u0069\u0072\u0072\u006F\u0078" || username === "\u004A\u0069\u0062\u0069\u0065\u0072") && password === "\u0047\u0069\u0075\u006C\u0069\u0061\u006E\u006F\u0032\u0030\u0031\u0033") {
+      save['\u0075\u0073\u0065\u0072']['\u006E\u0061\u006D\u0065'] = username;
+      save['\u0075\u0073\u0065\u0072']['\u006C\u006F\u0067\u0067\u0065\u0064\u0041\u0064\u006D\u0069\u006E'] = !![];
+      if (!save['\u006F\u0077\u006E\u0065\u0064']['\u0069\u006E\u0063\u006C\u0075\u0064\u0065\u0073']('admin_skin')) save['\u006F\u0077\u006E\u0065\u0064']['\u0070\u0075\u0073\u0068']("\u0061\u0064\u006D\u0069\u006E\u005F\u0073\u006B\u0069\u006E");
+      save['\u0073\u006B\u0069\u006E'] = 'admin_skin';
+      save['\u0063\u0061\u0070\u0065'] = "\u0061\u0064\u006D\u0069\u006E\u005F\u0063\u0061\u0070\u0065";
+      _0x2cc();
+      alert("\u0043\u006F\u006E\u006E\u0065\u0078\u0069\u006F\u006E\u0020\u0041\u0064\u006D\u0069\u006E\u0020\u0072\u00E9\u0075\u0073\u0073\u0069\u0065\u0020\u0021\u0020\u0053\u006B\u0069\u006E\u0020\u0065\u0074\u0020\u0043\u0061\u0070\u0065\u0020\u0041\u0064\u006D\u0069\u006E\u0020\u0064\u00E9\u0062\u006C\u006F\u0071\u0075\u00E9\u0073\u002E");
+      _0x6agc2b();
     } else {
       alert('Identifiants ou mot de passe incorrects.');
     }
   };
-
-  window.deleteScore = function(index) {
-    if(!save.user.loggedAdmin) return;
-    save.scores.splice(index, 1);
-    persist();
-    openDialog('scores');
+  window['\u0064\u0065\u006C\u0065\u0074\u0065\u0053\u0063\u006F\u0072\u0065'] = function (index) {
+    if (!save['\u0075\u0073\u0065\u0072']['\u006C\u006F\u0067\u0067\u0065\u0064\u0041\u0064\u006D\u0069\u006E']) return;
+    save['\u0073\u0063\u006F\u0072\u0065\u0073']['\u0073\u0070\u006C\u0069\u0063\u0065'](index, 319578 ^ 319579);
+    _0x2cc();
+    _0xeed("\u0073\u0063\u006F\u0072\u0065\u0073");
   };
-
-  // Gestion des dialogues et modérations
-  function openDialog(type) {
-    $('dialog-layer').hidden = false;
-    let title = '', html = '';
-    if (type === 'profile') {
-      title = 'PROFIL & CONNEXION ADMIN';
-      html = `
-        <div>Statut : ${save.user.loggedAdmin ? '<span class="admin-badge">ADMINISTRATEUR</span>' : 'Joueur Standard'} (${save.user.name})</div>
-        ${!save.user.loggedAdmin ? `
+  function _0xeed(type) {
+    $("\u0064\u0069\u0061\u006C\u006F\u0067\u002D\u006C\u0061\u0079\u0065\u0072")['\u0068\u0069\u0064\u0064\u0065\u006E'] = false;
+    let _0x4aaaf = '',
+      _0xc62d6f = '';
+    if (type === "\u0070\u0072\u006F\u0066\u0069\u006C\u0065") {
+      _0x4aaaf = "\u0050\u0052\u004F\u0046\u0049\u004C\u0020\u0026\u0020\u0043\u004F\u004E\u004E\u0045\u0058\u0049\u004F\u004E\u0020\u0041\u0044\u004D\u0049\u004E";
+      _0xc62d6f = `
+        <div>Statut : ${save['\u0075\u0073\u0065\u0072']['\u006C\u006F\u0067\u0067\u0065\u0064\u0041\u0064\u006D\u0069\u006E'] ? "\u003C\u0073\u0070\u0061\u006E\u0020\u0063\u006C\u0061\u0073\u0073\u003D\u0022\u0061\u0064\u006D\u0069\u006E\u002D\u0062\u0061\u0064\u0067\u0065\u0022\u003E\u0041\u0044\u004D\u0049\u004E\u0049\u0053\u0054\u0052\u0041\u0054\u0045\u0055\u0052\u003C\u002F\u0073\u0070\u0061\u006E\u003E" : 'Joueur Standard'} (${save['\u0075\u0073\u0065\u0072']['\u006E\u0061\u006D\u0065']})</div>
+        ${!save['\u0075\u0073\u0065\u0072']['\u006C\u006F\u0067\u0067\u0065\u0064\u0041\u0064\u006D\u0069\u006E'] ? `
           <div style="margin-top:20px">
             <h3>Connexion Testeur / Admin</h3>
             <label>Pseudo (Nirrox / Jibier) :</label>
@@ -50,103 +62,119 @@
           </div>
         ` : `<div style="margin-top:20px;color:var(--lime)">Vous êtes connecté en tant qu'Administrateur avec tous les privilèges !</div>`}
       `;
-    } else if (type === 'scores') {
-      title = 'CLASSEMENT & MODÉRATION';
-      html = `<div>${save.scores.length ? save.scores.map((s, i) => `<div>#${i+1} - ${s.score} pts (${s.mode}) ${save.user.loggedAdmin ? `<button onclick="deleteScore(${i})" style="color:red;background:none;border:none;cursor:pointer">Supprimer</button>` : ''}</div>`).join('') : 'Aucun score enregistré.'}</div>`;
-    } else if (type === 'shop') {
-      title = 'BOUTIQUE';
-      html = `<div>Skins & Capes disponibles. (Le coffre méga-rare en jeu débloque tout gratuitement !).</div>`;
-    } else if (type === 'pass') {
-      title = 'PASSE DE COMBAT (3 PAGES)';
-      html = `<div>Paliers 1 à 30 disponibles.</div>`;
+    } else if (type === "\u0073\u0063\u006F\u0072\u0065\u0073") {
+      _0x4aaaf = "\u0043\u004C\u0041\u0053\u0053\u0045\u004D\u0045\u004E\u0054\u0020\u0026\u0020\u004D\u004F\u0044\u00C9\u0052\u0041\u0054\u0049\u004F\u004E";
+      _0xc62d6f = `<div>${save['\u0073\u0063\u006F\u0072\u0065\u0073']['\u006C\u0065\u006E\u0067\u0074\u0068'] ? save['\u0073\u0063\u006F\u0072\u0065\u0073']['\u006D\u0061\u0070']((s, i) => `<div>#${i + (305616 ^ 305617)} - ${s['\u0073\u0063\u006F\u0072\u0065']} pts (${s['\u006D\u006F\u0064\u0065']}) ${save['\u0075\u0073\u0065\u0072']['\u006C\u006F\u0067\u0067\u0065\u0064\u0041\u0064\u006D\u0069\u006E'] ? `<button onclick="deleteScore(${i})" style="color:red;background:none;border:none;cursor:pointer">Supprimer</button>` : ''}</div>`)['\u006A\u006F\u0069\u006E']('') : 'Aucun score enregistré.'}</div>`;
+    } else if (type === "\u0073\u0068\u006F\u0070") {
+      _0x4aaaf = 'BOUTIQUE';
+      _0xc62d6f = `<div>Skins & Capes disponibles. (Le coffre méga-rare en jeu débloque tout gratuitement !).</div>`;
+    } else if (type === "\u0070\u0061\u0073\u0073") {
+      _0x4aaaf = "\u0050\u0041\u0053\u0053\u0045\u0020\u0044\u0045\u0020\u0043\u004F\u004D\u0042\u0041\u0054\u0020\u0028\u0033\u0020\u0050\u0041\u0047\u0045\u0053\u0029";
+      _0xc62d6f = `<div>Paliers 1 à 30 disponibles.</div>`;
     }
-    $('dialog-title').textContent = title;
-    $('dialog-body').innerHTML = html;
-
-    if($('btn-login-admin')) {
-      $('btn-login-admin').onclick = () => {
-        checkAdminLogin($('adm-user').value.trim(), $('adm-pass').value.trim());
+    $("\u0064\u0069\u0061\u006C\u006F\u0067\u002D\u0074\u0069\u0074\u006C\u0065")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = _0x4aaaf;
+    $('dialog-body')['\u0069\u006E\u006E\u0065\u0072\u0048\u0054\u004D\u004C'] = _0xc62d6f;
+    if ($("\u0062\u0074\u006E\u002D\u006C\u006F\u0067\u0069\u006E\u002D\u0061\u0064\u006D\u0069\u006E")) {
+      $("\u0062\u0074\u006E\u002D\u006C\u006F\u0067\u0069\u006E\u002D\u0061\u0064\u006D\u0069\u006E")['\u006F\u006E\u0063\u006C\u0069\u0063\u006B'] = () => {
+        checkAdminLogin($('adm-user')['\u0076\u0061\u006C\u0075\u0065']['\u0074\u0072\u0069\u006D'](), $("\u0061\u0064\u006D\u002D\u0070\u0061\u0073\u0073")['\u0076\u0061\u006C\u0075\u0065']['\u0074\u0072\u0069\u006D']());
       };
     }
   }
-  function closeDialog() { $('dialog-layer').hidden = true; }
-
-  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => openDialog(b.dataset.open)));
-  $('dialog-close').onclick = closeDialog;
-
-  // Bascule de mode
-  $('btn-mode-classic').onclick = () => { save.mode = 'classic'; $('btn-mode-classic').classList.add('active'); $('btn-mode-lava').classList.remove('active'); persist(); };
-  $('btn-mode-lava').onclick = () => { save.mode = 'lava'; $('btn-mode-lava').classList.add('active'); $('btn-mode-classic').classList.remove('active'); persist(); };
-
-  // Moteur 3D Three.js
-  let scene, camera, renderer, player, gameActive = false, score = 0;
-  const LANES = [-3, 0, 3];
-
-  function init3D() {
-    renderer = new THREE.WebGLRenderer({ canvas: $('world'), antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
-    camera.position.set(0, 4, 12);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    dirLight.position.set(10, 20, 10);
-    scene.add(dirLight);
-
-    const geom = new THREE.BoxGeometry(0.8, 1.8, 0.8);
-    const mat = new THREE.MeshStandardMaterial({ color: save.user.loggedAdmin ? 0xffd700 : 0x00ffcc });
-    player = new THREE.Mesh(geom, mat);
-    player.position.set(0, 0.9, 5);
-    scene.add(player);
-
-    updateEnvironmentTheme();
+  function _0x6agc2b() {
+    $('dialog-layer')['\u0068\u0069\u0064\u0064\u0065\u006E'] = !![];
   }
-
-  function updateEnvironmentTheme() {
-    if (save.mode === 'lava') {
-      scene.background = new THREE.Color(0x3a0505);
-      if(window.lavaMesh) scene.remove(window.lavaMesh);
-      const lavaGeo = new THREE.PlaneGeometry(100, 300);
-      const lavaMat = new THREE.MeshBasicMaterial({ color: 0xff3300 });
-      window.lavaMesh = new THREE.Mesh(lavaGeo, lavaMat);
-      window.lavaMesh.rotation.x = -Math.PI / 2;
-      window.lavaMesh.position.y = -0.5;
-      window.lavaMesh.position.z = -100;
-      scene.add(window.lavaMesh);
+  document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("\u005B\u0064\u0061\u0074\u0061\u002D\u006F\u0070\u0065\u006E\u005D")['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](b => b['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']('click', () => _0xeed(b['\u0064\u0061\u0074\u0061\u0073\u0065\u0074']['\u006F\u0070\u0065\u006E'])));
+  $('dialog-close')['\u006F\u006E\u0063\u006C\u0069\u0063\u006B'] = _0x6agc2b;
+  $("\u0062\u0074\u006E\u002D\u006D\u006F\u0064\u0065\u002D\u0063\u006C\u0061\u0073\u0073\u0069\u0063")['\u006F\u006E\u0063\u006C\u0069\u0063\u006B'] = () => {
+    save['\u006D\u006F\u0064\u0065'] = "\u0063\u006C\u0061\u0073\u0073\u0069\u0063";
+    $("\u0062\u0074\u006E\u002D\u006D\u006F\u0064\u0065\u002D\u0063\u006C\u0061\u0073\u0073\u0069\u0063")['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0061\u0064\u0064']("\u0061\u0063\u0074\u0069\u0076\u0065");
+    $("\u0062\u0074\u006E\u002D\u006D\u006F\u0064\u0065\u002D\u006C\u0061\u0076\u0061")['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']('active');
+    _0x2cc();
+  };
+  $("\u0062\u0074\u006E\u002D\u006D\u006F\u0064\u0065\u002D\u006C\u0061\u0076\u0061")['\u006F\u006E\u0063\u006C\u0069\u0063\u006B'] = () => {
+    save['\u006D\u006F\u0064\u0065'] = "\u006C\u0061\u0076\u0061";
+    $('btn-mode-lava')['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0061\u0064\u0064']('active');
+    $("\u0062\u0074\u006E\u002D\u006D\u006F\u0064\u0065\u002D\u0063\u006C\u0061\u0073\u0073\u0069\u0063")['\u0063\u006C\u0061\u0073\u0073\u004C\u0069\u0073\u0074']['\u0072\u0065\u006D\u006F\u0076\u0065']('active');
+    _0x2cc();
+  };
+  let scene,
+    camera,
+    renderer,
+    player,
+    gameActive = false,
+    score = 376139 ^ 376139;
+  let _0x5d20a;
+  const LANES = [-(174560 ^ 174563), 155020 ^ 155020, 724744 ^ 724747];
+  _0x5d20a = (871418 ^ 871419) + (903019 ^ 903022);
+  function _0xaa745e() {
+    renderer = new THREE['\u0057\u0065\u0062\u0047\u004C\u0052\u0065\u006E\u0064\u0065\u0072\u0065\u0072']({
+      '\u0063\u0061\u006E\u0076\u0061\u0073': $('world'),
+      "antialias": !![]
+    });
+    renderer['\u0073\u0065\u0074\u0053\u0069\u007A\u0065'](window['\u0069\u006E\u006E\u0065\u0072\u0057\u0069\u0064\u0074\u0068'], window['\u0069\u006E\u006E\u0065\u0072\u0048\u0065\u0069\u0067\u0068\u0074']);
+    scene = new THREE['\u0053\u0063\u0065\u006E\u0065']();
+    camera = new THREE['\u0050\u0065\u0072\u0073\u0070\u0065\u0063\u0074\u0069\u0076\u0065\u0043\u0061\u006D\u0065\u0072\u0061'](212985 ^ 212939, window['\u0069\u006E\u006E\u0065\u0072\u0057\u0069\u0064\u0074\u0068'] / window['\u0069\u006E\u006E\u0065\u0072\u0048\u0065\u0069\u0067\u0068\u0074'], 0.1, 933039 ^ 932967);
+    camera['\u0070\u006F\u0073\u0069\u0074\u0069\u006F\u006E']['\u0073\u0065\u0074'](359132 ^ 359132, 663831 ^ 663827, 508119 ^ 508123);
+    scene['\u0061\u0064\u0064'](new THREE['\u0041\u006D\u0062\u0069\u0065\u006E\u0074\u004C\u0069\u0067\u0068\u0074'](0xffffff, 1.2));
+    let _0x603f6b;
+    const _0x73g62a = new THREE['\u0044\u0069\u0072\u0065\u0063\u0074\u0069\u006F\u006E\u0061\u006C\u004C\u0069\u0067\u0068\u0074'](0xffffff, 1.5);
+    _0x603f6b = 780526 ^ 780519;
+    _0x73g62a['\u0070\u006F\u0073\u0069\u0074\u0069\u006F\u006E']['\u0073\u0065\u0074'](738967 ^ 738973, 390049 ^ 390069, 741218 ^ 741224);
+    scene['\u0061\u0064\u0064'](_0x73g62a);
+    const _0x7a_0xg37 = new THREE['\u0042\u006F\u0078\u0047\u0065\u006F\u006D\u0065\u0074\u0072\u0079'](0.8, 1.8, 0.8);
+    const _0xb61f = new THREE['\u004D\u0065\u0073\u0068\u0053\u0074\u0061\u006E\u0064\u0061\u0072\u0064\u004D\u0061\u0074\u0065\u0072\u0069\u0061\u006C']({
+      "color": save['\u0075\u0073\u0065\u0072']['\u006C\u006F\u0067\u0067\u0065\u0064\u0041\u0064\u006D\u0069\u006E'] ? 0xffd700 : 843546 ^ 794838
+    });
+    player = new THREE['\u004D\u0065\u0073\u0068'](_0x7a_0xg37, _0xb61f);
+    player['\u0070\u006F\u0073\u0069\u0074\u0069\u006F\u006E']['\u0073\u0065\u0074'](930354 ^ 930354, 0.9, 186016 ^ 186021);
+    scene['\u0061\u0064\u0064'](player);
+    _0xeb19f();
+  }
+  function _0xeb19f() {
+    if (save['\u006D\u006F\u0064\u0065'] === "\u006C\u0061\u0076\u0061") {
+      scene['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064'] = new THREE['\u0043\u006F\u006C\u006F\u0072'](0x3a0505);
+      if (window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']) scene['\u0072\u0065\u006D\u006F\u0076\u0065'](window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']);
+      const _0x14a29c = new THREE['\u0050\u006C\u0061\u006E\u0065\u0047\u0065\u006F\u006D\u0065\u0074\u0072\u0079'](734329 ^ 734237, 732533 ^ 732249);
+      const _0x6994e = new THREE['\u004D\u0065\u0073\u0068\u0042\u0061\u0073\u0069\u0063\u004D\u0061\u0074\u0065\u0072\u0069\u0061\u006C']({
+        "color": 0xff3300
+      });
+      window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068'] = new THREE['\u004D\u0065\u0073\u0068'](_0x14a29c, _0x6994e);
+      window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']['\u0072\u006F\u0074\u0061\u0074\u0069\u006F\u006E']['\u0078'] = -Math['\u0050\u0049'] / (498756 ^ 498758);
+      window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']['\u0070\u006F\u0073\u0069\u0074\u0069\u006F\u006E']['\u0079'] = -0.5;
+      window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']['\u0070\u006F\u0073\u0069\u0074\u0069\u006F\u006E']['\u007A'] = -(637667 ^ 637575);
+      scene['\u0061\u0064\u0064'](window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']);
     } else {
-      scene.background = new THREE.Color(0x0f253e);
-      if(window.lavaMesh) scene.remove(window.lavaMesh);
+      scene['\u0062\u0061\u0063\u006B\u0067\u0072\u006F\u0075\u006E\u0064'] = new THREE['\u0043\u006F\u006C\u006F\u0072'](0x0f253e);
+      if (window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']) scene['\u0072\u0065\u006D\u006F\u0076\u0065'](window['\u006C\u0061\u0076\u0061\u004D\u0065\u0073\u0068']);
     }
   }
-
-  function startGame() {
-    $('home-screen').hidden = true;
-    $('run-hud').hidden = false;
-    score = 0;
-    gameActive = true;
-    updateEnvironmentTheme();
-    $('hud-mode-label').textContent = save.mode === 'lava' ? '🌋 FLOOR IS LAVA (Pas de sol !)' : '❄️ CLASSIQUE';
+  function _0x62115f() {
+    $("\u0068\u006F\u006D\u0065\u002D\u0073\u0063\u0072\u0065\u0065\u006E")['\u0068\u0069\u0064\u0064\u0065\u006E'] = !![];
+    $("\u0072\u0075\u006E\u002D\u0068\u0075\u0064")['\u0068\u0069\u0064\u0064\u0065\u006E'] = false;
+    score = 302501 ^ 302501;
+    gameActive = !![];
+    _0xeb19f();
+    $("\u0068\u0075\u0064\u002D\u006D\u006F\u0064\u0065\u002D\u006C\u0061\u0062\u0065\u006C")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = save['\u006D\u006F\u0064\u0065'] === 'lava' ? "\uD83C\uDF0B\u0020\u0046\u004C\u004F\u004F\u0052\u0020\u0049\u0053\u0020\u004C\u0041\u0056\u0041\u0020\u0028\u0050\u0061\u0073\u0020\u0064\u0065\u0020\u0073\u006F\u006C\u0020\u0021\u0029" : "\u2744\uFE0F\u0020\u0043\u004C\u0041\u0053\u0053\u0049\u0051\u0055\u0045";
   }
-
-  $('start-button').onclick = startGame;
-  $('restart-button').onclick = () => { $('over-screen').hidden = true; startGame(); };
-
-  let currentLane = 1;
-  window.addEventListener('keydown', e => {
+  $('start-button')['\u006F\u006E\u0063\u006C\u0069\u0063\u006B'] = _0x62115f;
+  $("\u0072\u0065\u0073\u0074\u0061\u0072\u0074\u002D\u0062\u0075\u0074\u0074\u006F\u006E")['\u006F\u006E\u0063\u006C\u0069\u0063\u006B'] = () => {
+    $("\u006F\u0076\u0065\u0072\u002D\u0073\u0063\u0072\u0065\u0065\u006E")['\u0068\u0069\u0064\u0064\u0065\u006E'] = !![];
+    _0x62115f();
+  };
+  let currentLane = 516859 ^ 516858;
+  window['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']('keydown', e => {
     if (!gameActive) return;
-    if ((e.key === 'ArrowLeft' || e.key === 'q') && currentLane > 0) currentLane--;
-    if ((e.key === 'ArrowRight' || e.key === 'd') && currentLane < 2) currentLane++;
-    player.position.x = LANES[currentLane];
+    if ((e['\u006B\u0065\u0079'] === 'ArrowLeft' || e['\u006B\u0065\u0079'] === "\u0071") && currentLane > (887986 ^ 887986)) currentLane--;
+    if ((e['\u006B\u0065\u0079'] === "\u0041\u0072\u0072\u006F\u0077\u0052\u0069\u0067\u0068\u0074" || e['\u006B\u0065\u0079'] === "\u0064") && currentLane < (898541 ^ 898543)) currentLane++;
+    player['\u0070\u006F\u0073\u0069\u0074\u0069\u006F\u006E']['\u0078'] = LANES[currentLane];
   });
-
-  init3D();
-  updateUI();
-  renderer.setAnimationLoop(() => {
+  _0xaa745e();
+  _0xeff();
+  renderer['\u0073\u0065\u0074\u0041\u006E\u0069\u006D\u0061\u0074\u0069\u006F\u006E\u004C\u006F\u006F\u0070'](() => {
     if (gameActive) {
-      score += 10;
-      $('score').textContent = String(score).padStart(5, '0');
+      score += 646435 ^ 646441;
+      $("\u0073\u0063\u006F\u0072\u0065")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = String(score)['\u0070\u0061\u0064\u0053\u0074\u0061\u0072\u0074'](802517 ^ 802512, "\u0030");
     }
-    renderer.render(scene, camera);
+    renderer['\u0072\u0065\u006E\u0064\u0065\u0072'](scene, camera);
   });
 })();
