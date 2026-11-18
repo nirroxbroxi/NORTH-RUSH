@@ -77,7 +77,6 @@
     .leaderboard-head{font-size:8px;color:#849f89;padding:0 10px 10px;border-bottom:1px solid #34513d}
     .leaderboard-row{padding:12px 10px;border-bottom:1px solid #294734;font-size:11px}
 
-    /* États d'affichage gérés proprement */
     body[data-state="running"] .hero { display: none !important; }
     body[data-state="running"] .site-nav { display: none !important; }
     body[data-state="menu"] #run-hud { display: none !important; }
@@ -217,10 +216,10 @@
     const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 
     const SKINS = [
-      {id:'frost',name:"P'tit Givré",price:0,emoji:'🐧'},
-      {id:'evergreen',name:'Lutin Express',price:600,emoji:'🎄'},
-      {id:'yeti',name:'Yéti Blanc',price:1100,emoji:'❄️'},
-      {id:'magma',name:'Magma Core',price:1600,emoji:'🌋'}
+      {id:'frost',name:"P'tit Givré",price:0,color:0xcf493f,emoji:'🐧'},
+      {id:'evergreen',name:'Lutin Express',price:600,color:0x4c986c,emoji:'🎄'},
+      {id:'yeti',name:'Yéti Blanc',price:1100,color:0xe4eff7,emoji:'❄️'},
+      {id:'magma',name:'Magma Core',price:1600,color:0xff511a,emoji:'🌋'}
     ];
 
     let save = { username: 'Invité Polaire', coins: 350, equipped: 'frost', owned: ['frost'], gameMode: 'classic' };
@@ -253,7 +252,7 @@
           <div class="skin-card">
             <div style="font-size:32px;margin-bottom:8px">${s.emoji}</div>
             <div style="font-size:12px;font-weight:700;margin-bottom:8px">${s.name}</div>
-            <button style="width:100%;padding:6px;background:var(--lime);color:var(--ink);border-radius:4px;font-weight:700" onclick="alert('Skin déjà géré !')">${s.price===0?'ÉQUIPÉ':s.price+' 💰'}</button>
+            <button style="width:100%;padding:6px;background:var(--lime);color:var(--ink);border-radius:4px;font-weight:700">${s.price===0?'ÉQUIPÉ':s.price+' 💰'}</button>
           </div>`).join('')}</div>`;
         $('dialog-layer').hidden = false;
       }
@@ -263,17 +262,38 @@
     $('dialog-close').addEventListener('click', () => $('dialog-layer').hidden = true);
     $('brand-home').addEventListener('click', () => { document.body.dataset.state = 'menu'; $('over-screen').hidden = true; });
 
-    // 3D Three.js Moteur (Caméra ajustée pour bien voir le joueur au centre)
+    // 3D Three.js Moteur avec le Vrai Skin Personnage 3D
     let renderer, scene, camera, groundMesh, lavaMat, player;
     let obstacles = [], run = null, state = 'menu', clockTime = 0, playerY = 0;
     const LANES = [-3.2, 0, 3.2], PLAYER_Z = 5;
+
+    const boxGeo = new THREE.BoxGeometry(1, 1, 1);
+    const sphereGeo = new THREE.IcosahedronGeometry(1, 1);
+
+    function makeRunner(colorHex) {
+      const rig = new THREE.Group();
+      const suitMat = new THREE.MeshStandardMaterial({ color: colorHex, roughness: .7 });
+      
+      // Corps
+      const body = new THREE.Mesh(boxGeo, suitMat);
+      body.scale.set(.7, .8, .45); body.position.set(0, .8, 0); rig.add(body);
+      
+      // Tête
+      const head = new THREE.Mesh(sphereGeo, new THREE.MeshStandardMaterial({ color: 0xd7aa89 }));
+      head.scale.set(.32, .32, .32); head.position.set(0, 1.45, 0); rig.add(head);
+      
+      // Chapeau / Casquette
+      const hat = new THREE.Mesh(boxGeo, suitMat);
+      hat.scale.set(.36, .2, .36); hat.position.set(0, 1.7, 0); rig.add(hat);
+
+      return rig;
+    }
 
     function initWorld() {
       renderer = new THREE.WebGLRenderer({ canvas: $('world'), antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       scene = new THREE.Scene(); scene.background = new THREE.Color(0x0f253e);
       
-      // Position de la caméra bien ajustée pour centrer le joueur et le décor
       camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, .1, 240);
       camera.position.set(0, 3.2, 11);
       camera.lookAt(0, 1, 0);
@@ -290,8 +310,8 @@
       groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(650, 650), new THREE.MeshStandardMaterial({ color: 0xdcebf7 }));
       groundMesh.rotation.x = -Math.PI / 2; scene.add(groundMesh);
 
-      player = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), new THREE.MeshStandardMaterial({ color: 0xcf493f }));
-      player.position.set(0, 1, PLAYER_Z);
+      player = makeRunner(SKINS[0].color);
+      player.position.set(0, 0, PLAYER_Z);
       scene.add(player);
 
       renderer.setAnimationLoop(animate);
@@ -301,7 +321,7 @@
       obstacles.forEach(o => scene.remove(o.group)); obstacles = [];
       const mode = save.gameMode;
       groundMesh.material = mode === 'lava' ? lavaMat : new THREE.MeshStandardMaterial({ color: 0xdcebf7 });
-      playerY = mode === 'lava' ? 1.6 : 1; player.position.set(0, playerY, PLAYER_Z);
+      playerY = mode === 'lava' ? .6 : 0; player.position.set(0, playerY, PLAYER_Z);
       run = { mode, distance: 0, score: 0, coins: 0, lane: 1, speed: 18, elapsed: 0, lavaHeat: 0 };
 
       document.body.dataset.state = 'running';
