@@ -21,10 +21,9 @@
     button{border:0;cursor:pointer}
     [hidden]{display:none!important}.icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
     #world{position:fixed;inset:0;z-index:1;width:100vw;height:100vh;display:block;outline:none}
-    #menu-wash{position:fixed;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(8,22,38,.86) 0%,rgba(8,22,38,.62) 30%,rgba(8,22,38,.18) 52%,transparent 70%);transition:opacity .7s}
     
     /* Header */
-    .site-header{position:fixed;z-index:30;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:20px 3vw;gap:14px}
+    .site-header{position:fixed;z-index:30;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:20px 3vw;gap:14px;background:rgba(13,33,56,0.4);backdrop-filter:blur(8px)}
     .brand{display:flex;align-items:center;gap:10px;color:#f4f9fc;text-decoration:none;background:none;padding:0}
     .brand-mark{height:38px;width:38px;display:grid;place-items:center;background:var(--lime);border-radius:9px;transform:rotate(-5deg);color:var(--ink)}
     .brand-words{font-family:var(--display);font-size:20px;font-weight:800;line-height:.86}
@@ -42,7 +41,7 @@
     .v2-preview-btn{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;background:rgba(255,90,38,.25);border:1px solid rgba(255,90,38,.5);color:#ffb299;font-size:9px;font-weight:700}
 
     /* Hero Menu */
-    .hero{position:fixed;z-index:20;left:3.6vw;top:52%;width:420px;padding:22px 25px;border-radius:18px;background:rgba(10,27,44,.78);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(15px);transform:translateY(-47%)}
+    .hero{position:fixed;z-index:20;left:3.6vw;top:52%;width:420px;padding:22px 25px;border-radius:18px;background:rgba(10,27,44,.85);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(15px);transform:translateY(-47%)}
     .eyebrow{font-size:9.5px;font-weight:800;letter-spacing:2px;color:var(--lime);margin-bottom:10px}
     h1{margin:0;font-family:var(--display);font-size:80px;font-weight:800;line-height:.82;color:#ffffff}.title-dot{color:var(--lime)}
     .hero-copy{font-size:13px;line-height:1.55;color:#d0e2f0;margin:11px 0 15px}
@@ -52,7 +51,7 @@
     .mode-selector{margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
     .mode-selector-label{font-family:var(--mono);font-size:8px;color:#9bbad0;margin-bottom:7px;display:flex;justify-content:space-between}
     .mode-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-    .mode-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:8px 7px;text-align:left;color:#d6e7f5}
+    .mode-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:8px 7px;text-align:left;color:#d6e7f5;cursor:pointer}
     .mode-pill.active{background:rgba(208,250,120,.16);border-color:var(--lime);color:#fff}
     .mode-pill-top{display:flex;justify-content:space-between;font-size:10px;font-weight:800}
     .mode-pill-desc{font-size:8.5px;color:#a5bfd4}
@@ -96,7 +95,6 @@
   </defs></svg>
 
   <canvas id="world"></canvas>
-  <div id="menu-wash"></div>
 
   <!-- En-tête -->
   <header class="site-header">
@@ -265,7 +263,7 @@
     $('dialog-close').addEventListener('click', () => $('dialog-layer').hidden = true);
     $('brand-home').addEventListener('click', () => { document.body.dataset.state = 'menu'; $('over-screen').hidden = true; });
 
-    // 3D Three.js Moteur
+    // 3D Three.js Moteur (Caméra ajustée pour bien voir le joueur au centre)
     let renderer, scene, camera, groundMesh, lavaMat, player;
     let obstacles = [], run = null, state = 'menu', clockTime = 0, playerY = 0;
     const LANES = [-3.2, 0, 3.2], PLAYER_Z = 5;
@@ -274,8 +272,11 @@
       renderer = new THREE.WebGLRenderer({ canvas: $('world'), antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       scene = new THREE.Scene(); scene.background = new THREE.Color(0x0f253e);
+      
+      // Position de la caméra bien ajustée pour centrer le joueur et le décor
       camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, .1, 240);
-      camera.position.set(1.4, 5.2, 13.5);
+      camera.position.set(0, 3.2, 11);
+      camera.lookAt(0, 1, 0);
 
       scene.add(new THREE.HemisphereLight(0xd9ecff, 0x2c4b6b, 1.35));
       const sun = new THREE.DirectionalLight(0xfff1d6, 1.75); sun.position.set(-18, 30, 16); scene.add(sun);
@@ -290,6 +291,7 @@
       groundMesh.rotation.x = -Math.PI / 2; scene.add(groundMesh);
 
       player = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), new THREE.MeshStandardMaterial({ color: 0xcf493f }));
+      player.position.set(0, 1, PLAYER_Z);
       scene.add(player);
 
       renderer.setAnimationLoop(animate);
@@ -299,7 +301,7 @@
       obstacles.forEach(o => scene.remove(o.group)); obstacles = [];
       const mode = save.gameMode;
       groundMesh.material = mode === 'lava' ? lavaMat : new THREE.MeshStandardMaterial({ color: 0xdcebf7 });
-      playerY = mode === 'lava' ? 1.6 : 0; player.position.set(0, playerY, PLAYER_Z);
+      playerY = mode === 'lava' ? 1.6 : 1; player.position.set(0, playerY, PLAYER_Z);
       run = { mode, distance: 0, score: 0, coins: 0, lane: 1, speed: 18, elapsed: 0, lavaHeat: 0 };
 
       document.body.dataset.state = 'running';
@@ -321,14 +323,6 @@
       $('score').textContent = String(run.score).padStart(5, '0');
       $('distance').textContent = Math.floor(run.distance);
       $('run-coins').textContent = run.coins;
-    }
-
-    function gameOver() {
-      state = 'over';
-      document.body.dataset.state = 'menu';
-      $('final-score').textContent = fmt(run.score) + ' PTS';
-      $('over-screen').hidden = false;
-      if(window.saveScoreToFirebase) window.saveScoreToFirebase(save.username, run.score, run.mode);
     }
 
     document.addEventListener('keydown', e => {
